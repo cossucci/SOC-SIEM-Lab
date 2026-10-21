@@ -32,4 +32,6 @@ To capture high-fidelity host-level telemetry beyond default Windows Event Loggi
 ### 3. Telemetry Verification
 Verified that high-fidelity telemetry events were actively recording via Windows Event Viewer.
 
+**Sysmon Installation & Operational Logs:**
+![Sysmon64 Installed](images/Sysmon64%20installed.png)
 ![Sysmon Operational Events](images/sysmon-operational-events.png)
