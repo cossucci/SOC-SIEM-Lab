@@ -3,10 +3,12 @@
 ## Overview
 This repository documents the architecture, configuration, and execution of an end-to-end SOC and SIEM home lab. The environment features a cloud-hosted Windows Server target machine, custom endpoint telemetry collection via Microsoft Sysmon, and centralized log ingestion.
 
-## Architecture
+### Architecture
+
 * **Target Endpoint:** AWS EC2 Instance (`t3.micro`) running Windows Server.
-* **Control / Attacker Host:** Local CachyOS (Arch Linux) using `xfreerdp3` for management.
-* **Network Security:** Restrictive Security Group rules enforcing inbound RDP (port 3389) access strictly to the control host IP address.
+* **Control / Management Host:** Local CachyOS (Arch Linux) using `xfreerdp3` for administrative access.
+* **Attacker / Simulation Host:** Kali Linux (used for generating security events and testing detections).
+* **Network Security:** Restrictive Security Group rules enforcing inbound RDP (port 3389) and other telemetry traffic strictly to authorized host IP addresses.
 
 ---
 
