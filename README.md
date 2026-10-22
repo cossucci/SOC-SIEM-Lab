@@ -1,35 +1,40 @@
 # Local SOC & SIEM Home Lab
 
-## Project Overview
-This repository documents the design and deployment of a localized, enterprise-style Security Operations Center (SOC) laboratory. The lab is built to simulate real-world threat activity, generate high-fidelity endpoint telemetry, and analyze security events using a local SIEM pipeline.
+## Phase 1: Lab Architecture & Endpoint Instrumentation
 
-The environment utilizes an attacker node (Kali Linux) and a target endpoint (Windows 11 Pro) hosted on an Arch-based CachyOS system, streaming security logs directly into a local Elasticsearch & Kibana SIEM stack running via Docker.
-
----
-
-## Architecture & Core Components
-
-* **Host Infrastructure:** CachyOS (Arch Linux-based, x86_64)
-* **Hypervisor Platform:** Oracle VM VirtualBox
-* **Attacker Node (Red Team):** Kali Linux
-* **Target Endpoint (Blue Team):** Windows 11 Pro
-* **SIEM & Analytics Engine:** Elasticsearch & Kibana 8.12.0 (Dockerized)
-
-*  
-  ![Virtualization Environment Topology](./images/phase1-vbox-topology.png)
-  
+### Overview
+Phase 1 establishes the virtual networking infrastructure, target Windows 11 endpoint, and baseline endpoint telemetry generation required for host-level visibility in the SOC environment.
 
 ---
 
-## Host Firewall & Network Isolation
-To secure the SOC management layer and protect internal SIEM endpoints (such as the Elasticsearch ingestion port `9200`) from unauthorized external network access, a strict host-based firewall policy was enforced on CachyOS:
+### Hypervisor Topology & Virtual Networking
+1. Launch **Oracle VM VirtualBox**.
+2. Configure virtual network adapters ensuring the target VM and analyst/attacker VM operate in a controlled lab environment.
+3. Verify VM operational state:
+   * **Target VM:** Windows 11 Pro (Blue Team / Log Source)
+   * **Attacker VM:** Kali Linux (Red Team)
 
-1. **Default Ingress Boundary:** Configured the host firewall (`ufw`) default inbound policy to **Ignore** (silent packet drop) to conceal management ports from network discovery scans.
-2. **Access Control Management:** Restricted external network access while maintaining internal communication between the host SIEM stack and virtual machine interfaces.
+![VirtualBox Topology](./images/phase1-vbox-topology.png)
 
-```bash
-# Remove temporary exposure rules
-sudo ufw delete allow 9200/tcp
+---
 
-# Verify active firewall status
-sudo ufw status verbose
+### Target Endpoint Provisioning & Telemetry Setup
+System Monitor (Sysmon) provides high-fidelity host logging (process creation, network connections, file modifications) essential for SIEM detection and threat hunting.
+
+1. Open **PowerShell as Administrator** inside the Windows 11 VM.
+2. Create the working directory, fetch the Sysmon binary along with the SwiftOnSecurity baseline configuration, and execute installation:
+
+```powershell
+# Create dedicated working directory
+mkdir C:\Sysmon
+cd C:\Sysmon
+
+# Fetch Sysmon64 executable
+Invoke-WebRequest -Uri "[https://live.sysinternals.com/Sysmon64.exe](https://live.sysinternals.com/Sysmon64.exe)" -OutFile "Sysmon64.exe"
+
+# Fetch SwiftOnSecurity baseline configuration
+Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml](https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml)" -OutFile "sysmonconfig-export.xml"
+
+# Execute service installation with configuration
+.\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
+
