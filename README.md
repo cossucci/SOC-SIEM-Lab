@@ -35,3 +35,16 @@ Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmo
 
 # Service installation and configuration enforcement
 .\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
+
+---
+
+## Phase 2: Centralized SIEM & Telemetry Ingestion (In Progress)
+
+Phase 2 transitions the home lab from local endpoint logging to centralized SIEM collection using the **Elastic Stack (Elasticsearch & Kibana)** managed via **Fleet and Elastic Agent**.
+
+### **Execution Steps:**
+- [ ] **Deploy Elastic Stack:** Set up Elasticsearch and Kibana instances for centralized indexing and analysis.
+- [ ] **Configure Fleet & Agent Policies:** Initialize Fleet Server inside Kibana and create an endpoint security policy.
+- [ ] **Deploy Elastic Agent:** Install and enroll the Elastic Agent on the Windows 11 target node.
+- [ ] **Enable Windows & Sysmon Integration:** Configure the Windows integration pack to collect high-value channels, including *Sysmon Operational* logs.
+- [ ] **Verify Ingestion:** Validate log flow and inspect event streams inside Kibana Discover.
