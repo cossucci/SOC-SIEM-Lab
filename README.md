@@ -3,19 +3,19 @@
 ## Phase 1: Architecture & Endpoint Instrumentation
 
 ### Executive Summary
-Phase 1 establishes the foundational infrastructure, hypervisor topology, and host-level telemetry architecture for the local SOC environment[cite: 1]. The environment is engineered around an isolated virtual network topology separating the target endpoint (Blue Team) from the attacker node (Red Team) to ensure controlled execution of security assessments.
+Phase 1 establishes the foundational infrastructure, hypervisor topology, and host-level telemetry architecture for the local SOC environment. The environment is engineered around an isolated virtual network topology separating the target endpoint (Blue Team) from the attacker node (Red Team) to ensure controlled execution of security assessments.
 
 ---
 
 ### 1. Virtualization Topology & Network Architecture
 
-The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, hosted on an Arch Linux-based distribution (**CachyOS**) for high-performance virtual machine management and resource scheduling[cite: 1].
+The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, hosted on an Arch Linux-based distribution (**CachyOS**) for high-performance virtual machine management and resource scheduling.
 
-- **Host Environment:** CachyOS (Arch Linux-based Hypervisor & Management Node)
+- **Host Environment:** CachyOS (Arch Linux-based Hypervisor & Management Node).
 
-- **Target Node (Blue Team):** Windows 11 Pro configured as the primary log and telemetry source[cite: 1].
+- **Target Node (Blue Team):** Windows 11 Pro configured as the primary log and telemetry source.
 
-- **Attacker Node (Red Team):** Kali Linux provisioned for adversarial simulation
+- **Attacker Node (Red Team):** Kali Linux provisioned for adversarial simulation.
 
 
 ![Virtualization Topology](images/phase1-vbox-topology.png)
@@ -24,10 +24,10 @@ The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, hosted o
 
 ### 2. Endpoint Instrumentation & Telemetry Pipeline
 
-To achieve deep host-level visibility, native Windows event logging is augmented using **System Monitor (Sysmon)**[cite: 1]. Sysmon provides high-fidelity kernel- and user-space telemetry—including process creation, network socket connections, driver loads, and file modifications—which are critical for threat hunting and SIEM detection engineering
+To achieve deep host-level visibility, native Windows event logging is augmented using **System Monitor (Sysmon)**. Sysmon provides high-fidelity kernel- and user-space telemetry—including process creation, network socket connections, driver loads, and file modifications—which are critical for threat hunting and SIEM detection engineering.
 
 #### Configuration & Deployment
-Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events
+Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events.
 
 ```powershell
 # Directory provisioning and telemetry deployment
