@@ -42,3 +42,5 @@ Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmo
 .\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
 ```
 ![Virtualization Topology](images/phase1-sysmon-installed.png)
+
+![Virtualization Topology](images/phase1-sysmon-event-viewer.png)
