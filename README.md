@@ -8,7 +8,7 @@ Phase 1 establishes the foundational infrastructure, hypervisor topology, and ho
 ---
 
 ### 1. Virtualization Topology & Network Architecture
-The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, utilizing isolated internal networking to emulate a realistic enterprise-style boundary.
+The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, hosted on an Arch Linux-based distribution (**CachyOS**) for high-performance virtual machine management and resource scheduling.
 
 * **Host Environment:** CachyOS (Arch Linux-based Hypervisor & Management Node)
 * **Target Node (Blue Team):** Windows 11 Pro configured as the primary log and telemetry source.
@@ -21,20 +21,6 @@ The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, utilizin
 ### 2. Endpoint Instrumentation & Telemetry Pipeline
 To achieve deep host-level visibility, native Windows event logging is augmented using **System Monitor (Sysmon)**. Sysmon provides high-fidelity kernel- and user-space telemetry—including process creation, network socket connections, driver loads, and file modifications—which are critical for threat hunting and SIEM detection engineering.
 
-##### Configuration & Deployment
-Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events.
-
-# Service installation and configuration enforcement
-.\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
-```  <-- **Add these three backticks here to close the code box!**
-
-![Sysmon Service Installation Output](./images/phase1-sysmon-installed.png)
-
----
-
-### Exact text to copy and paste into your editor:
-
-```markdown
 #### Configuration & Deployment
 Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events.
 
