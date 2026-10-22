@@ -24,7 +24,6 @@ To achieve deep host-level visibility, native Windows event logging is augmented
 #### Configuration & Deployment
 Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events.
 
-```powershell
 # Directory provisioning and telemetry deployment
 mkdir C:\Sysmon
 cd C:\Sysmon
@@ -34,6 +33,4 @@ Invoke-WebRequest -Uri "[https://live.sysinternals.com/Sysmon64.exe](https://liv
 Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml](https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml)" -OutFile "sysmonconfig-export.xml"
 
 # Service installation and configuration enforcement
-.\Sysmon64.exe -i sysmonconfig-export.xml -accepteula```
-
-![Sysmon Service Installation Output](./images/phase2-sysmon-installed.png)
+.\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
