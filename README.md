@@ -16,7 +16,7 @@ The environment utilizes an attacker node (Kali Linux) and a target endpoint (Wi
 * **SIEM & Analytics Engine:** Elasticsearch & Kibana 8.12.0 (Dockerized)
 
 * **Screenshot Placeholder:**  
-  `![Virtualization Environment Topology](./images/phase1-vbox-topology.png)`  
+  `![Virtualization Environment Topology](./images/phase1-vbox-topology.png)
   
 
 ---
