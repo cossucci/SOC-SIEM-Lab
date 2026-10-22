@@ -21,7 +21,7 @@ The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, utilizin
 ### 2. Endpoint Instrumentation & Telemetry Pipeline
 To achieve deep host-level visibility, native Windows event logging is augmented using **System Monitor (Sysmon)**. Sysmon provides high-fidelity kernel- and user-space telemetry—including process creation, network socket connections, driver loads, and file modifications—which are critical for threat hunting and SIEM detection engineering.
 
-#### Configuration & Deployment
+##### Configuration & Deployment
 Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events.
 
 ```powershell
@@ -35,7 +35,3 @@ Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmo
 
 # Service installation and configuration enforcement
 .\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
-
----
-
-![Sysmon Service Installation Output](./images/phase1-sysmon-installed.png)
