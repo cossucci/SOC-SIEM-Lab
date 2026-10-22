@@ -1,39 +1,35 @@
-# Cloud-Based SOC & SIEM Home Lab
+# Local SOC & SIEM Home Lab
 
-## Overview
-This repository documents the architecture, configuration, and execution of an end-to-end SOC and SIEM home lab. The environment features a cloud-hosted Windows Server target machine, custom endpoint telemetry collection via Microsoft Sysmon, and centralized log ingestion.
+## Project Overview
+This repository documents the design and deployment of a localized, enterprise-style Security Operations Center (SOC) laboratory. The lab is built to simulate real-world threat activity, generate high-fidelity endpoint telemetry, and analyze security events using a local SIEM pipeline.
 
-### Architecture
-
-* **Target Endpoint:** AWS EC2 Instance (`t3.micro`) running Windows Server.
-* **Control / Management Host:** Local CachyOS (Arch Linux) using `xfreerdp3` for administrative access.
-* **Attacker / Simulation Host:** Kali Linux (running as a local Virtual Machine on the CachyOS host for generating security events and testing detections).
-* **Network Security:** Restrictive Security Group rules enforcing inbound RDP (port 3389) and other telemetry traffic strictly to authorized host IP addresses.
+The environment utilizes an attacker node (Kali Linux) and a target endpoint (Windows 11 Pro) hosted on an Arch-based CachyOS system, streaming security logs directly into a local Elasticsearch & Kibana SIEM stack running via Docker.
 
 ---
 
-## Phase 1: Endpoint Provisioning & Telemetry Configuration
+## Architecture & Core Components
 
-### 1. Host Provisioning & Access Control
-* Provisioned a Windows Server instance on AWS Free Tier.
-* Configured inbound firewall rules to restrict RDP access to the management IP.
-* Established secure RDP remote access via CLI (`xfreerdp3`).
+* **Host Infrastructure:** CachyOS (Arch Linux-based, x86_64)
+* **Hypervisor Platform:** Oracle VM VirtualBox
+* **Attacker Node (Red Team):** Kali Linux
+* **Target Endpoint (Blue Team):** Windows 11 Pro
+* **SIEM & Analytics Engine:** Elasticsearch & Kibana 8.12.0 (Dockerized)
 
-### 2. Sysmon Deployment & Configuration
-To capture high-fidelity host-level telemetry beyond default Windows Event Logging, Microsoft Sysinternals Sysmon was deployed alongside SwiftOnSecurity's optimized configuration schema.
+* **Screenshot Placeholder:**  
+  `![Virtualization Environment Topology](./images/phase1-vbox-topology.png)`  
+  *(Show VirtualBox manager displaying both Kali Linux and Windows 11 virtual machines)*
 
-**Installation Steps:**
-1. Created deployment directory `C:\Sysmon` and downloaded required binaries:
-   ```powershell
-   New-Item -ItemType Directory -Path "C:\Sysmon" -Force
-   Set-Location "C:\Sysmon"
-   Invoke-WebRequest -Uri "https://live.sysinternals.com/Sysmon64.exe" -OutFile "C:\Sysmon\Sysmon64.exe"
-   Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml" -OutFile "C:\Sysmon\sysmonconfig-export.xml"
-   .\Sysmon64.exe -accepteula -i sysmonconfig-export.xml
-   ```
-### 3. Telemetry Verification
-Verified that high-fidelity telemetry events were actively recording via Windows Event Viewer.
+---
 
-**Sysmon Installation & Operational Logs:**
-![Sysmon64 Installed](images/Sysmon64%20installed.png)
-![Sysmon Operational Events](images/sysmon-operational-events.png)
+## Host Firewall & Network Isolation
+To secure the SOC management layer and protect internal SIEM endpoints (such as the Elasticsearch ingestion port `9200`) from unauthorized external network access, a strict host-based firewall policy was enforced on CachyOS:
+
+1. **Default Ingress Boundary:** Configured the host firewall (`ufw`) default inbound policy to **Ignore** (silent packet drop) to conceal management ports from network discovery scans.
+2. **Access Control Management:** Restricted external network access while maintaining internal communication between the host SIEM stack and virtual machine interfaces.
+
+```bash
+# Remove temporary exposure rules
+sudo ufw delete allow 9200/tcp
+
+# Verify active firewall status
+sudo ufw status verbose
