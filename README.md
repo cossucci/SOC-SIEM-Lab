@@ -1,40 +1,37 @@
 # Local SOC & SIEM Home Lab
 
-## Phase 1: Lab Architecture & Endpoint Instrumentation
+## Phase 1: Architecture & Endpoint Instrumentation
 
-### Overview
-Phase 1 establishes the virtual networking infrastructure, target Windows 11 endpoint, and baseline endpoint telemetry generation required for host-level visibility in the SOC environment.
+### Executive Summary
+Phase 1 establishes the foundational infrastructure, hypervisor topology, and host-level telemetry architecture for the local SOC environment. The environment is engineered around an isolated virtual network topology separating the target endpoint (Blue Team) from the attacker node (Red Team) to ensure controlled execution of security assessments.
 
 ---
 
-### Hypervisor Topology & Virtual Networking
-1. Launch **Oracle VM VirtualBox**.
-2. Configure virtual network adapters ensuring the target VM and analyst/attacker VM operate in a controlled lab environment.
-3. Verify VM operational state:
-   * **Target VM:** Windows 11 Pro (Blue Team / Log Source)
-   * **Attacker VM:** Kali Linux (Red Team)
+### 1. Virtualization Topology & Network Architecture
+The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, utilizing isolated internal networking to emulate a realistic enterprise-style boundary.
+
+* **Host Environment:** CachyOS (Hypervisor & Management Node)
+* **Target Node (Blue Team):** Windows 11 Pro configured as the primary log and telemetry source.
+* **Attacker Node (Red Team):** Kali Linux provisioned for adversarial simulation.
 
 ![VirtualBox Topology](./images/phase1-vbox-topology.png)
 
 ---
 
-### Target Endpoint Provisioning & Telemetry Setup
-System Monitor (Sysmon) provides high-fidelity host logging (process creation, network connections, file modifications) essential for SIEM detection and threat hunting.
+### 2. Endpoint Instrumentation & Telemetry Pipeline
+To achieve deep host-level visibility, native Windows event logging is augmented using **System Monitor (Sysmon)**. Sysmon provides high-fidelity kernel- and user-space telemetry—including process creation, network socket connections, driver loads, and file modifications—which are critical for threat hunting and SIEM detection engineering.
 
-1. Open **PowerShell as Administrator** inside the Windows 11 VM.
-2. Create the working directory, fetch the Sysmon binary along with the SwiftOnSecurity baseline configuration, and execute installation:
+#### Configuration & Deployment
+Sysmon was deployed on the Windows 11 target node utilizing the industry-standard **SwiftOnSecurity** baseline configuration to filter out OS noise and capture high-value security events.
 
 ```powershell
-# Create dedicated working directory
+# Directory provisioning and telemetry deployment
 mkdir C:\Sysmon
 cd C:\Sysmon
 
-# Fetch Sysmon64 executable
+# Retrieve Sysmon binary and production-grade baseline ruleset
 Invoke-WebRequest -Uri "[https://live.sysinternals.com/Sysmon64.exe](https://live.sysinternals.com/Sysmon64.exe)" -OutFile "Sysmon64.exe"
-
-# Fetch SwiftOnSecurity baseline configuration
 Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml](https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml)" -OutFile "sysmonconfig-export.xml"
 
-# Execute service installation with configuration
+# Service installation and configuration enforcement
 .\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
-
