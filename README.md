@@ -10,7 +10,7 @@ Phase 1 establishes the foundational infrastructure, hypervisor topology, and ho
 ### 1. Virtualization Topology & Network Architecture
 The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, utilizing isolated internal networking to emulate a realistic enterprise-style boundary.
 
-* **Host Environment:** CachyOS (Hypervisor & Management Node)
+* **Host Environment:** CachyOS (Arch Linux-based Hypervisor & Management Node)
 * **Target Node (Blue Team):** Windows 11 Pro configured as the primary log and telemetry source.
 * **Attacker Node (Red Team):** Kali Linux provisioned for adversarial simulation.
 
@@ -35,3 +35,5 @@ Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmo
 
 # Service installation and configuration enforcement
 .\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
+
+![Sysmon Service Installation Output](./images/phase1-sysmon-installed.png)
