@@ -7,7 +7,7 @@ This repository documents the architecture, configuration, and execution of an e
 
 * **Target Endpoint:** AWS EC2 Instance (`t3.micro`) running Windows Server.
 * **Control / Management Host:** Local CachyOS (Arch Linux) using `xfreerdp3` for administrative access.
-* **Attacker / Simulation Host:** Kali Linux (used for generating security events and testing detections).
+* **Attacker / Simulation Host:** Kali Linux (running as a local Virtual Machine on the CachyOS host for generating security events and testing detections).
 * **Network Security:** Restrictive Security Group rules enforcing inbound RDP (port 3389) and other telemetry traffic strictly to authorized host IP addresses.
 
 ---
