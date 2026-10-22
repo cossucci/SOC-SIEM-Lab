@@ -17,7 +17,7 @@ The environment utilizes an attacker node (Kali Linux) and a target endpoint (Wi
 
 * **Screenshot Placeholder:**  
   `![Virtualization Environment Topology](./images/phase1-vbox-topology.png)`  
-  *(Show VirtualBox manager displaying both Kali Linux and Windows 11 virtual machines)*
+  
 
 ---
 
