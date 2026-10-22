@@ -18,7 +18,7 @@ The lab runs on a hypervisor topology managed via Oracle VM VirtualBox, hosted o
 - **Attacker Node (Red Team):** Kali Linux provisioned for adversarial simulation[cite: 1].
 
 
-![Virtualization Topology](phase1-vbox-topology.png)
+![Virtualization Topology](images/phase1-vbox-topology.png)
 
 ---
 
