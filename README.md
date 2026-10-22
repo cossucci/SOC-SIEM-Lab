@@ -34,4 +34,6 @@ Invoke-WebRequest -Uri "[https://live.sysinternals.com/Sysmon64.exe](https://liv
 Invoke-WebRequest -Uri "[https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml](https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml)" -OutFile "sysmonconfig-export.xml"
 
 # Service installation and configuration enforcement
-.\Sysmon64.exe -i sysmonconfig-export.xml -accepteula
+.\Sysmon64.exe -i sysmonconfig-export.xml -accepteula```
+
+![Sysmon Service Installation Output](./images/phase2-sysmon-installed.png)
